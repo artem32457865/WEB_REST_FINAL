@@ -1,4 +1,4 @@
-from models import Base, User, Menu, Order, Reservation, SiteSettings
+from models import Base, User, Menu, SiteSettings
 from settings import Session
 from werkzeug.security import generate_password_hash
 

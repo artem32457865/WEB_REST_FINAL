@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import DateTime, ForeignKey, String, Text, select, Enum, JSON
+from sqlalchemy import DateTime, ForeignKey, String, Text, select, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from settings import Session
 from flask_login import UserMixin

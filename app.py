@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import (Flask, render_template, request, session, redirect, url_for, flash)
 from sqlalchemy import select
 from settings import DatabaseConfig, Session
 from flask_login import LoginManager
@@ -30,6 +30,7 @@ def load_user(user_id):
         return User.get(int(user_id))
     except:
         return None
+
 
 # Передаем мини лого для всех сторинок
 @app.context_processor
@@ -75,24 +76,30 @@ def index():
         lang=current_lang,
     )
 
+
 # Передает інформацию для адмінки
 @app.route("/admin/dashboard")
 def dashboard():
     images = get_background_settings()
-    current_lang = session.get('language', 'uk')
+    current_lang = session.get("language", "uk")
     with Session() as db_session:
         total_orders = db_session.query(Order).count()
 
-        pending_orders = db_session.query(Order).filter(Order.status == 'PENDING').count()
+        pending_orders = (
+            db_session.query(Order).filter(Order.status == "PENDING").count()
+        )
 
         active_menu_items = db_session.query(Menu).filter_by(active=True).count()
-    return render_template("admin/dashboard.html",
-                           background_image=images.get('admin_panel_background_image'),
-                           total_orders=total_orders,
-                           pending_orders=pending_orders,
-                           active_menu_items=active_menu_items,
-                           t=lambda key: t(key, current_lang),
-                           lang=current_lang)
+    return render_template(
+        "admin/dashboard.html",
+        background_image=images.get("admin_panel_background_image"),
+        total_orders=total_orders,
+        pending_orders=pending_orders,
+        active_menu_items=active_menu_items,
+        t=lambda key: t(key, current_lang),
+        lang=current_lang,
+    )
+
 
 # Отримуємо унікальні категорії з активних елементів меню
 @app.route("/menu")
