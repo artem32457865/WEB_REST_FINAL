@@ -1,7 +1,19 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session
-from flask_login import login_required, current_user
+from flask import (Blueprint,
+                   render_template,
+                   request,
+                   flash,
+                   redirect,
+                   url_for,
+                   session)
+from flask_login import (login_required,
+                         current_user)
 from settings import Session
-from models import Menu, Order, OrderStatus, SiteSettings, User, Reservation
+from models import (Menu,
+                    Order,
+                    OrderStatus,
+                    SiteSettings,
+                    User,
+                    Reservation)
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -24,13 +36,15 @@ def dashboard():
     current_lang = session.get("language", "uk")
     from app import t
 
-    with Session() as db_session:
+    with (Session() as db_session):
 
         total_orders = db_session.query(Order).count()
         pending_orders = (
-            db_session.query(Order).filter(Order.status == OrderStatus.PENDING).count()
+            db_session.query(Order).filter
+            (Order.status == OrderStatus.PENDING).count()
         )
-        active_menu_items = db_session.query(Menu).filter(Menu.active == True).count()
+        active_menu_items = db_session.query(Menu).filter(
+            Menu.active == True).count()
 
         return render_template(
             "admin/dashboard.html",
@@ -89,7 +103,9 @@ def add_menu_item():
         return redirect(url_for("admin.menu_management"))
 
     return render_template(
-        "admin/add_menu.html", t=lambda key: t(key, current_lang), lang=current_lang
+        "admin/add_menu.html",
+        t=lambda key: t(key, current_lang),
+        lang=current_lang
     )
 
 
@@ -147,11 +163,13 @@ def delete_menu_item(item_id):
 @login_required
 @admin_required
 def orders_management():
-    current_lang = session.get("language", "uk")
+    current_lang = session.get("language",
+                               "uk")
     from app import t
 
     with Session() as db_session:
-        orders = db_session.query(Order).order_by(Order.created_at.desc()).all()
+        orders = db_session.query(Order).order_by(
+            Order.created_at.desc()).all()
         return render_template(
             "admin/orders.html",
             orders=orders,
@@ -200,23 +218,34 @@ def cancel_order(order_id):
 @login_required
 @admin_required
 def site_settings():
-    current_lang = session.get("language", "uk")
+    current_lang = session.get("language",
+                               "uk")
     from app import t
 
     with Session() as db_session:
         if request.method == "POST":
             settings_data = {
-                "main_background_image": request.form.get("main_background_image"),
-                "menu_background_image": request.form.get("menu_background_image"),
+                "main_background_image": request.form.get(
+                    "main_background_image"
+                ),
+                "menu_background_image": request.form.get(
+                    "menu_background_image"
+                ),
                 "admin_panel_background_image": request.form.get(
                     "admin_panel_background_image"
                 ),
-                "cart_background_image": request.form.get("cart_background_image"),
+                "cart_background_image": request.form.get(
+                    "cart_background_image"
+                ),
                 "order_history_background_image": request.form.get(
                     "order_history_background_image"
                 ),
-                "logo_image": request.form.get("logo_image"),
-                "mini_logo_image": request.form.get("mini_logo_image"),
+                "logo_image": request.form.get(
+                    "logo_image"
+                ),
+                "mini_logo_image": request.form.get(
+                    "mini_logo_image"
+                ),
             }
 
             for setting_name, setting_value in settings_data.items():

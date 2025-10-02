@@ -1,4 +1,10 @@
-from flask import (Flask, render_template, request, session, redirect, url_for, flash)
+from flask import (Flask,
+                   render_template,
+                   request,
+                   session,
+                   redirect,
+                   url_for,
+                   flash)
 from sqlalchemy import select
 from settings import DatabaseConfig, Session
 from flask_login import LoginManager
@@ -10,7 +16,8 @@ import os
 
 app = Flask(__name__)
 app.config.from_object(DatabaseConfig)
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "default-secret-key-for-development")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY",
+                                     "default-secret-key-for-development")
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["PERMANENT_SESSION_LIFETIME"] = 3600
 app.config["REMEMBER_COOKIE_DURATION"] = 3600
@@ -89,10 +96,15 @@ def dashboard():
             db_session.query(Order).filter(Order.status == "PENDING").count()
         )
 
-        active_menu_items = db_session.query(Menu).filter_by(active=True).count()
+
+        active_menu_items = db_session.query(
+            Menu).filter_by(active=True).count()
+
+
     return render_template(
         "admin/dashboard.html",
-        background_image=images.get("admin_panel_background_image"),
+        background_image=images.get(
+            "admin_panel_background_image"),
         total_orders=total_orders,
         pending_orders=pending_orders,
         active_menu_items=active_menu_items,
@@ -105,7 +117,8 @@ def dashboard():
 @app.route("/menu")
 def menu():
     images = get_background_settings()
-    current_lang = session.get("language", "uk")
+    current_lang = session.get("language",
+                               "uk")
     with Session() as db_session:
         stmt = select(Menu).where(Menu.active == True)
         result = db_session.execute(stmt)
@@ -158,10 +171,14 @@ app.register_blueprint(orders.bp)
 # Обробники помилок
 @app.errorhandler(404)
 def not_found_error(error):
-    current_lang = session.get("language", "uk")
+    current_lang = session.get("language",
+                               "uk")
     return (
+
         render_template(
-            "errors/404.html", t=lambda key: t(key, current_lang), lang=current_lang
+            "errors/404.html",
+            t=lambda key: t(key, current_lang),
+            lang=current_lang
         ),
         404,
     )
@@ -169,10 +186,13 @@ def not_found_error(error):
 
 @app.errorhandler(403)
 def forbidden_error(error):
-    current_lang = session.get("language", "uk")
+    current_lang = session.get("language",
+                               "uk")
     return (
         render_template(
-            "errors/403.html", t=lambda key: t(key, current_lang), lang=current_lang
+            "errors/403.html",
+            t=lambda key: t(key, current_lang),
+            lang=current_lang
         ),
         403,
     )
@@ -180,10 +200,13 @@ def forbidden_error(error):
 
 @app.errorhandler(401)
 def unauthorized_error(error):
-    current_lang = session.get("language", "uk")
+    current_lang = session.get("language",
+                               "uk")
     return (
         render_template(
-            "errors/401.html", t=lambda key: t(key, current_lang), lang=current_lang
+            "errors/401.html",
+            t=lambda key: t(key, current_lang),
+            lang=current_lang
         ),
         401,
     )
@@ -191,10 +214,13 @@ def unauthorized_error(error):
 
 @app.errorhandler(500)
 def internal_error(error):
-    current_lang = session.get("language", "uk")
+    current_lang = session.get("language",
+                               "uk")
     return (
         render_template(
-            "errors/500.html", t=lambda key: t(key, current_lang), lang=current_lang
+            "errors/500.html",
+            t=lambda key: t(key, current_lang),
+            lang=current_lang
         ),
         500,
     )

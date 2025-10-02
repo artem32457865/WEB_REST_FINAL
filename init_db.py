@@ -1,4 +1,5 @@
-from models import Base, User, Menu, SiteSettings
+from models import (Base, User, Menu,
+                    SiteSettings)
 from settings import Session
 from werkzeug.security import generate_password_hash
 
@@ -25,7 +26,8 @@ def init_db():
 
     session = Session()
 
-    existing_admin = session.query(User).filter(User.username == "sushi_admin").first()
+    existing_admin = (session.query(User).filter
+                      (User.username == "sushi_admin").first())
     if not existing_admin:
 
         admin_user = User(

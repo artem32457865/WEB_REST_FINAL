@@ -1,7 +1,16 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session
-from flask_login import login_required, current_user
+from flask import (Blueprint,
+                   render_template,
+                   request,
+                   flash,
+                   redirect,
+                   url_for,
+                   session)
+from flask_login import (login_required,
+                         current_user)
 from settings import Session
-from models import Menu, Order, OrderStatus
+from models import (Menu,
+                    Order,
+                    OrderStatus)
 from sqlalchemy.orm import joinedload
 import sqlite3
 import os
@@ -14,8 +23,9 @@ def menu():
     current_lang = session.get("language", "uk")
     from app import t
 
-    with Session() as db_session:
-        menu_items = db_session.query(Menu).filter(Menu.active == True).all()
+    with (Session() as db_session):
+        menu_items = db_session.query(Menu).filter(
+            Menu.active == True).all()
         categories = sorted(
             list(set(item.category for item in menu_items if item.category))
         )
@@ -79,7 +89,8 @@ def cart():
             db_session.query(Order)
             .options(joinedload(Order.menu_item))
             .filter(
-                Order.user_id == current_user.id, Order.status == OrderStatus.PENDING
+                Order.user_id == current_user.id,
+                Order.status == OrderStatus.PENDING
             )
             .all()
         )
@@ -129,7 +140,8 @@ def checkout():
         pending_orders = (
             db_session.query(Order)
             .filter(
-                Order.user_id == current_user.id, Order.status == OrderStatus.PENDING
+                Order.user_id == current_user.id,
+                Order.status == OrderStatus.PENDING
             )
             .all()
         )
