@@ -20,9 +20,9 @@
     <div class="row mb-4">
             <div class="col-12">
                 <div class="d-flex flex-wrap justify-content-center gap-2">
-                    <button class="btn btn-outline-primary category-btn active" data-category="all">{{ t('Всі') }}</button>
+                    <button class="btn btn-menu category-btn active" data-category="all">{{ t('Всі') }}</button>
                     {% for category in categories %}
-                    <button class="btn btn-outline-primary category-btn" data-category="{{ category }}">{{ t(category) }}</button>
+                    <button class="btn btn-menu category-btn" data-category="{{ category }}">{{ t(category) }}</button>
                     {% endfor %}
                 </div>
             </div>
