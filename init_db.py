@@ -72,7 +72,7 @@ def init_db():
             ),
             SiteSettings(
                 setting_name="menu_background_image",
-                setting_value="https://media.discordapp.net/attachments/1417846956751061053/1420711860034076772/menu_fon.png?ex=68d66486&is=68d51306&hm=6cc45fe56373dc1d59cfb8aa22ce40cea11e8fa9d80a577a52f6faab8103f752&=&quality=lossless",
+                setting_value="https://media.discordapp.net/attachments/1333041787111215125/1423286730462855311/menu_fon.png?ex=68dfc28f&is=68de710f&hm=91d273e4d4a3502da7309cc996866f9e6b63967328c70f3e546572f5a356f314&=&quality=lossless",
                 description="Фонове зображення сторінки меню",
             ),
             SiteSettings(
